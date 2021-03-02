@@ -48,7 +48,7 @@ class ViewController: UIViewController {
     // Function that gets the price of Bitcoin
     func getPrice () {
         
-        // 
+        // Update this with knowledge 
         if let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR") {
             
             URLSession.shared.dataTask(with: url ) {
