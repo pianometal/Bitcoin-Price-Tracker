@@ -2,14 +2,21 @@ import UIKit
 
 class ViewController: UIViewController {
 
+// CONNECTIONS
+    
     @IBOutlet weak var usdLabel: UILabel!
     @IBOutlet weak var jpyLabel: UILabel!
     @IBOutlet weak var eurLabel: UILabel!
+    
+
+// VIEWDIDLOAD
+    
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        // 
         if let usd = UserDefaults.standard.string(forKey: "USD") {
             
             usdLabel.text = usd
@@ -30,16 +37,25 @@ class ViewController: UIViewController {
         
         getPrice()
     
-    }
+    } //
     
+    
+// END VIEWDID LOAD
+    
+    
+// FUNCTIONS
+    
+    // Function that gets the price of Bitcoin
     func getPrice () {
         
+        // 
         if let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR") {
             
             URLSession.shared.dataTask(with: url ) {
                 
                 (data:Data?, response:URLResponse?, error:Error?) in
-            
+                
+                
                 if error == nil {
                     
                     if data != nil {
