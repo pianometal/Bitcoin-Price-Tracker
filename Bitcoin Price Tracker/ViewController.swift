@@ -112,7 +112,7 @@ class ViewController: UIViewController {
                                 // If let will then most likely be needed
                                 
                                 // Gives the Key for the json Dictionary and assigns a variable to the Value (which is this case is a Double)
-                                // usdPrice becomes a Double that is the current BTC price
+                                // usdPrice becomes a Double which is the current BTC price 
                                 if let usdPrice = json["USD"] {
                                         
                                     // Changes the btcLabel.text to reflect the usdPrice and applies the currency format
