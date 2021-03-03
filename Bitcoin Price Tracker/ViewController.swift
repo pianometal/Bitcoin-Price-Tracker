@@ -1,74 +1,81 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-// CONNECTIONS
-    
     
     @IBOutlet weak var btcLabel: UILabel!
     @IBOutlet weak var ethLabel: UILabel!
     @IBOutlet weak var ltcLabel: UILabel!
     @IBOutlet weak var dogeLabel: UILabel!
     
-    
-// VIEWDIDLOAD
-    
-
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        // Gets a string of the BitCoin price in USD from UserDefauls
+        // Bitcoin - BEGIN
         if let btc = UserDefaults.standard.string(forKey: "USD") {
-            
-            // Updates the BitCoin Label text from the string in UserDefaults
             btcLabel.text = btc
-            
         }
-        
-        // Runs the getBtcPrice function and gets the price of Bitcoin
         getBtcPrice()
+        
+        // Etherium - BEGIN
+        if let eth = UserDefaults.standard.string(forKey: "USD") {
+            ethLabel.text = eth
+        }
+        getEthPrice()
+        
+        // Litecoin - BEGIN
+        if let ltc = UserDefaults.standard.string(forKey: "USD") {
+            ltcLabel.text = ltc
+        }
+        getLtcPrice()
+        
+        // Dogecoin - BEGIN
+        if let doge = UserDefaults.standard.string(forKey: "USD") {
+            dogeLabel.text = doge
+        }
+        getDogePrice()
+        
+    }
     
-    } //
+/*
+     END OF VIEWDIDLOAD
+     END OF VIEWDIDLOAD
+     END OF VIEWDIDLOAD
+     END OF VIEWDIDLOAD
+     END OF VIEWDIDLOAD
+     END OF VIEWDIDLOAD
+     */
+
+/*
+    FUNCTIONS
+    FUNCTIONS
+    FUNCTIONS
+    FUNCTIONS
+    FUNCTIONS
+    FUNCTIONS
+        */
     
-    
-// END VIEWDID LOAD
-    
-    
-    
-    
-    
-    
-    
-    
-// FUNCTIONS
-    
-    // Function that gets the price of Bitcoin using JSON. A Dictionary of [ String : Double ] will be used
     func getBtcPrice () {
-    
-        
-        /* NEW URL https:min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,LTC,DOGE&tsyms=USD
-         
-         OLD URL https:min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR
-        
-         ALL URLS
-        
-         Bitcoin
-         https:min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD
-        
-         Etherium
-         https:min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD
-        
-         Litecoin
-         https:min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD
-        
-         Dogecoin
-         https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD */
-        
-        
-        // Attempts to fetch data from the API
-        
-        
-        // Creates a string variable out of the URL Object which takes a string argument
+/*
+NEW URL https:min-api.cryptocompare.com/data/pricemulti?fsyms=BTC,ETH,LTC,DOGE&tsyms=USD
+
+OLD URL https:min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD,JPY,EUR
+
+ALL URLS
+
+Bitcoin
+https:min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD
+
+Etherium
+https:min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD
+
+Litecoin
+https:min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD
+
+Dogecoin
+https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
+*/
+
         if let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD") {
             
             // URL Session is a way to go visit a website - The url string variable was created above
@@ -128,7 +135,8 @@ class ViewController: UIViewController {
                         }
                             
                     }
-                        
+                    
+                // if error != nil
                 } else {
                 
                 // Prints if error != nil to the log
@@ -167,26 +175,89 @@ class ViewController: UIViewController {
     }
     
     
+    func getEthPrice () {
+        if let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD") {
+            URLSession.shared.dataTask(with: url ) {
+                (data:Data?, response:URLResponse?, error:Error?) in
+                if error == nil {
+                    if data != nil {
+                        if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
+                            DispatchQueue.main.async {
+                                if let usdPrice = json["USD"] {
+                                    self.ethLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                }
+                            }
+                        }
+                    }
+                } else {
+                print("We have an error in Etherium")
+                }
+            }.resume()
+        }
+    }
     
     
+    func getLtcPrice () {
+        if let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=LTC&tsyms=USD") {
+            URLSession.shared.dataTask(with: url ) {
+                (data:Data?, response:URLResponse?, error:Error?) in
+                if error == nil {
+                    if data != nil {
+                        if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
+                            DispatchQueue.main.async {
+                                if let usdPrice = json["USD"] {
+                                    self.ltcLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                }
+                            }
+                        }
+                    }
+                } else {
+                print("We have an error in Litecoin")
+                }
+            }.resume()
+        }
+    }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-// ACTIONS
-    
+    func getDogePrice () {
+        if let url = URL(string: "https://min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD") {
+            URLSession.shared.dataTask(with: url ) {
+                (data:Data?, response:URLResponse?, error:Error?) in
+                if error == nil {
+                    if data != nil {
+                        if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
+                            DispatchQueue.main.async {
+                                if let usdPrice = json["USD"] {
+                                    self.dogeLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                }
+                            }
+                        }
+                    }
+                } else {
+                print("We have an error in Dogecoin")
+                }
+            }.resume()
+        }
+    }
+/*
+     
+     ACTIONS
+     ACTIONS
+     ACTIONS
+     ACTIONS
+     ACTIONS
+     ACTIONS
+
+*/
     // Refreshes the price when the button is tapped
     @IBAction func refreshTapped(_ sender: Any) {
-        
-        // Runs the getBtcPrice function 
+
         getBtcPrice()
-        
+        getEthPrice()
+        getLtcPrice()
+        getDogePrice()
     }
     
 }
