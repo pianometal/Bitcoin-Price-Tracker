@@ -6,31 +6,34 @@ class ViewController: UIViewController {
     @IBOutlet weak var ethLabel: UILabel!
     @IBOutlet weak var ltcLabel: UILabel!
     @IBOutlet weak var dogeLabel: UILabel!
+    @IBOutlet weak var creditsLabel: UILabel!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        // Bitcoin - BEGIN
-        if let btc = UserDefaults.standard.string(forKey: "USD") {
+        // Get prices of each coin and assigns text to labels
+        
+        if let btc = UserDefaults.standard.string(forKey: "BTC") {
             btcLabel.text = btc
         }
+        
         getBtcPrice()
         
-        // Etherium - BEGIN
-        if let eth = UserDefaults.standard.string(forKey: "USD") {
+
+        if let eth = UserDefaults.standard.string(forKey: "ETH") {
             ethLabel.text = eth
         }
         getEthPrice()
         
-        // Litecoin - BEGIN
-        if let ltc = UserDefaults.standard.string(forKey: "USD") {
+
+        if let ltc = UserDefaults.standard.string(forKey: "LTC") {
             ltcLabel.text = ltc
         }
         getLtcPrice()
         
-        // Dogecoin - BEGIN
-        if let doge = UserDefaults.standard.string(forKey: "USD") {
+
+        if let doge = UserDefaults.standard.string(forKey: "DOGE") {
             dogeLabel.text = doge
         }
         getDogePrice()
@@ -112,7 +115,7 @@ https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
                         // Tries to cast it as a Dictionary object with String as a Key amd Double as the value
                         if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
                             
-                            //
+                            // Handling information
                             DispatchQueue.main.async {
                             
                                 // IMPORTANT - Every time you get something out of the Dictionry it is always comes back as an optional
@@ -120,13 +123,13 @@ https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
                                 
                                 // Gives the Key for the json Dictionary and assigns a variable to the Value (which is this case is a Double)
                                 // usdPrice becomes a Double which is the current BTC price 
-                                if let usdPrice = json["USD"] {
-                                        
+                                if let btcPrice = json["USD"] {
+                                    
                                     // Changes the btcLabel.text to reflect the usdPrice and applies the currency format
-                                    self.btcLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
+                                    self.btcLabel.text = self.getStringFor(price: btcPrice, currencyCode: "USD")
                                     
                                     // Stores the results in UserDefaults
-                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: btcPrice, currencyCode: "USD"), forKey: "BTC")
                                         
                                 }
                                     
@@ -183,9 +186,9 @@ https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
                     if data != nil {
                         if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
                             DispatchQueue.main.async {
-                                if let usdPrice = json["USD"] {
-                                    self.ethLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
-                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                if let ethPrice = json["USD"] {
+                                    self.ethLabel.text = self.getStringFor(price: ethPrice, currencyCode: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: ethPrice, currencyCode: "USD"), forKey: "ETH")
                                 }
                             }
                         }
@@ -206,9 +209,9 @@ https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
                     if data != nil {
                         if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
                             DispatchQueue.main.async {
-                                if let usdPrice = json["USD"] {
-                                    self.ltcLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
-                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                if let ltcPrice = json["USD"] {
+                                    self.ltcLabel.text = self.getStringFor(price: ltcPrice, currencyCode: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: ltcPrice, currencyCode: "USD"), forKey: "LTC")
                                 }
                             }
                         }
@@ -228,9 +231,9 @@ https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
                     if data != nil {
                         if let json = try? JSONSerialization.jsonObject(with: data!, options: []) as? [String : Double] {
                             DispatchQueue.main.async {
-                                if let usdPrice = json["USD"] {
-                                    self.dogeLabel.text = self.getStringFor(price: usdPrice, currencyCode: "USD")
-                                    UserDefaults.standard.setValue(self.getStringFor(price: usdPrice, currencyCode: "USD"), forKey: "USD")
+                                if let dogePrice = json["USD"] {
+                                    self.dogeLabel.text = self.getStringFor(price: dogePrice, currencyCode: "USD")
+                                    UserDefaults.standard.setValue(self.getStringFor(price: dogePrice, currencyCode: "USD"), forKey: "DOGE")
                                 }
                             }
                         }
@@ -251,13 +254,28 @@ https:min-api.cryptocompare.com/data/price?fsym=DOGE&tsyms=USD
      ACTIONS
 
 */
-    // Refreshes the price when the button is tapped
+    // Refreshes all prices when button is tapped
     @IBAction func refreshTapped(_ sender: Any) {
-
         getBtcPrice()
         getEthPrice()
         getLtcPrice()
         getDogePrice()
     }
+    
+    // Refreshes all prices when button is tapped
+    @IBAction func refreshButtonTapped(_ sender: Any) {
+        getBtcPrice()
+        getEthPrice()
+        getLtcPrice()
+        getDogePrice()
+    }
+    
+    @IBAction func gitHubButtonTapped(_ sender: Any) {
+        if let url = URL(string: "https://github.com/pianometal") {
+            UIApplication.shared.open(url)
+        }
+    }
+    
+    
     
 }
