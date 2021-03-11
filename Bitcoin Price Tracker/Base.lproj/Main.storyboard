@@ -200,13 +200,7 @@
                             <constraint firstItem="0d8-I5-yoH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zTV-8h-1aj"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="📈 CryptoPeek 👀" id="wJf-Zi-Grx">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="refresh" id="03b-Q3-8PW">
-                            <connections>
-                                <action selector="refreshTapped:" destination="BYZ-38-t0r" id="PRG-sW-REf"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="📈 CryptoPeek 👀" id="wJf-Zi-Grx"/>
                     <connections>
                         <outlet property="btcLabel" destination="fe2-2O-iWZ" id="ogt-hB-jmr"/>
                         <outlet property="creditsLabel" destination="HiZ-aw-vps" id="mRR-Ft-jnW"/>
